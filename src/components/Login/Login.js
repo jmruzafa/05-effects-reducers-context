@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useReducer } from "react";
-
+import React, { useEffect, useState, useReducer, useContext } from "react";
+import AuthContext from "../store/auth-context";
 import Card from "../UI/Card/Card";
+import Input from "../UI/Input/Input";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+
 
 const emailReducer = (state, action) => {
 	if (action.type === "USER_INPUT") {
@@ -36,20 +38,9 @@ const Login = (props) => {
 		isValid: null,
 	});
 	
-	//destructuring (alias assignment, not value) 
-	//we extract one property of the object and set into new var avoid recurrent validation 
-	//we used object destructuring to add object properties as dependencies to useEffect().
+	const authCtx = useContext(AuthContext);
 
-	// const { someProperty } = someObject;
-	// useEffect(() => {
-	// //code that only uses someProperty ...
-	// }, [someProperty]);
-	// We could also write this code and it would work in the same way.
-
-	// useEffect(() => {
-	// // code that only uses someProperty ...
-	// }, [someObject.someProperty]);
-	// This works just fine as well!
+	
 
 	const { isValid: emailIsValid } = emailState;
 	const { isValid: passwordIsValid } = passwordState;
@@ -87,40 +78,32 @@ const Login = (props) => {
 
 	const submitHandler = (event) => {
 		event.preventDefault();
-		props.onLogin(emailState.value, passwordState.value);
+		authCtx.onLogin(emailState.value, passwordState.value);
 	};
 
 	return (
 		<Card className={classes.login}>
 			<form onSubmit={submitHandler}>
-				<div
-					className={`${classes.control} ${
-						emailState.isValid === false ? classes.invalid : ""
-					}`}>
-					<label htmlFor='email'>E-Mail</label>
-					<input
-						type='email'
-						id='email'
-						value={emailState.value}
-						onChange={emailChangeHandler}
-						onBlur={validateEmailHandler}
-					/>
-				</div>
-				<div
-					className={`${classes.control} ${
-						passwordState.isValid === false ? classes.invalid : ""
-					}`}>
-					<label htmlFor='password'>Password</label>
-					<input
-						type='password'
-						id='password'
-						value={passwordState.value}
-						onChange={passwordChangeHandler}
-						onBlur={validatePasswordHandler}
-					/>
-				</div>
+				<Input
+				id='email'
+				label='E-Mail'
+				type='email'
+				isValid={emailIsValid}
+				value={emailState.value}
+				onChange={emailChangeHandler}
+				onBlur={validateEmailHandler}
+				></Input>
+				<Input
+				id='password'
+				label='Password'
+				type='password'
+				isValid={passwordIsValid}
+				value={passwordState.value}
+				onChange={passwordChangeHandler}
+				onBlur={validatePasswordHandler}
+				></Input>
 				<div className={classes.actions}>
-					<Button type='submit' className={classes.btn} disabled={!formIsValid}>
+					<Button type='submit' className={classes.btn}>
 						Login
 					</Button>
 				</div>
