@@ -38,6 +38,19 @@ const Login = (props) => {
 	
 	//destructuring (alias assignment, not value) 
 	//we extract one property of the object and set into new var avoid recurrent validation 
+	//we used object destructuring to add object properties as dependencies to useEffect().
+
+	// const { someProperty } = someObject;
+	// useEffect(() => {
+	// //code that only uses someProperty ...
+	// }, [someProperty]);
+	// We could also write this code and it would work in the same way.
+
+	// useEffect(() => {
+	// // code that only uses someProperty ...
+	// }, [someObject.someProperty]);
+	// This works just fine as well!
+
 	const { isValid: emailIsValid } = emailState;
 	const { isValid: passwordIsValid } = passwordState;
 
