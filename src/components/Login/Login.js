@@ -36,7 +36,7 @@ const Login = (props) => {
 		isValid: null,
 	});
 	
-	//alias assignment 
+	//destructuring (alias assignment, not value) 
 	//we extract one property of the object and set into new var avoid recurrent validation 
 	const { isValid: emailIsValid } = emailState;
 	const { isValid: passwordIsValid } = passwordState;
